@@ -703,7 +703,7 @@ export default {
       let offset = vector(getOffset(evt, this.$el)).minus(evt.offset).end
       dragNode.style.left = offset[0]+"px";
       dragNode.style.top = offset[1]+"px";
-      // z-style 为 4，比 pannel 高 1 级
+      // z-index 为 4，比 pannel 高 1 级
       dragNode.style['z-index']="4";
       // 将 node 放入 canvas
       this.$el.appendChild(dragNode);
