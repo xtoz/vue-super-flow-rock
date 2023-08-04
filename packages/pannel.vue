@@ -12,7 +12,7 @@
     @mouseleave="onMouseLeave"
     @contextmenu.prevent.stop
   >
-    <div v-if="mounseIn">
+    <div class="pannel-content" v-if="mounseIn">
       <slot> </slot>
     </div>
     <div v-else></div>
@@ -69,12 +69,23 @@ export default {
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
   user-select: none;
 
-  position: fixed;
+  position: absolute;
   background-color: #ffffff;
   border: 1px solid rgb(180, 180, 180);
   z-index: 3;
   outline: none;
 
   transition: width 0.5s, height 0.5s, top 0.5s;    // 时间一样就能保证上下扩张速度相等
+
+  .pannel-content {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 </style>
