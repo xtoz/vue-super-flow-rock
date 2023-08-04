@@ -48,22 +48,17 @@ export default {
 </script>
 
 <style lang="less">
-.super-flow__pannel {
-  user-select: none;
-  position: relative;
+.super-flow__nodePannel {
   background: #cccccc;
+  width: 100%;
   outline: none;
-  overflow: scroll;
 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  align-items: center;
 }
 .static-node {
   position: static;
+  margin: 10px 0;
 }
 </style>
