@@ -323,16 +323,15 @@ export default {
     // node 移动的 redo, undo
     this.graph.history.setReverse('moveNode',this.moveNodeUndo.bind(this),this.moveNodeRedo.bind(this))
 
-    // 创建 可拖拽 node 的 pannel
+    // 创建 nodePannel 对应的逻辑 pannel
     let flowViewRect = this.$el.getBoundingClientRect()
-    let flowViewleftMid = [flowViewRect.left,Math.floor((window.innerHeight-flowViewRect.top)/2)]
     this.graph.addPannel({
-        thumbCoordinate: [flowViewleftMid[0]-this.graph.origin[0],flowViewleftMid[1]-this.graph.origin[1]-25],
+        thumbCoordinate: [10,Math.floor(flowViewRect.height/2)-25],
         thumbWidth: 15,
         thumbHeight: 50,
         width: 200,
-        height: 600,
-        coordinate: [flowViewleftMid[0]-this.graph.origin[0],flowViewleftMid[1]-this.graph.origin[1]-300],
+        height: 400,
+        coordinate: [10,Math.floor(flowViewRect.height/2)-200],
         meta: null
       })
 
