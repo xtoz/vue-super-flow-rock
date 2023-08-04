@@ -24,10 +24,10 @@
       <!-- v-slot:node="{meta, node}：具名插槽 node，并从中获得 meta 和 node -->
       <template v-slot:node="{node}">
         <div :class="`flow-node flow-node-${node.meta.prop}`">
-          <header>
+          <header class="header">
             {{ node.meta.name }}
           </header>
-          <section>
+          <section class="section">
             {{ node.meta.desc }}
           </section>
         </div>
@@ -36,10 +36,10 @@
       <!-- nodePannel 中的 templateNode -->
       <template v-slot:templateNode="{node}">
         <div :class="`flow-node flow-node-${node.meta.prop}`">
-          <header>
+          <header class="header">
             {{ node.meta.name }}
           </header>
-          <section>
+          <section class="section">
             {{ node.meta.desc }}
           </section>
         </div>
@@ -261,16 +261,6 @@ export default {
   created () {
     const nodeList = [
       {
-        'key': 'nodeS3wfen8CI15X58Qw',
-        'width': 100,
-        'height': 80,
-        'coordinate': [0+681,0+465],
-        'meta': {
-          'prop': 'start',
-          'name': '开始节点'
-        }
-      },
-      {
         'key': 'nodeS3WgFnzCI15X58Qw', // 这个似乎与a:'nodeS3WgFnzCI15X58Qw'意思一样
         'width': 100,
         'height': 80,
@@ -473,6 +463,15 @@ export default {
         }
       },
       {
+        'key': 'node7WXbwOR6kSFD53Hf',
+        'width': 160,
+        'height': 80,
+        'meta': {
+          'prop': 'condition',
+          'name': '条件节点'
+        }
+      },
+      {
         'key': 'specialStartNode-fHsy9uJObPtdHZv1',
         'width': 160,
         'height': 80,
@@ -549,13 +548,13 @@ export default {
 <style lang="less">
 .super-flow-base-demo {
   width            : 100%;
-  height           : 800px;
+  height           : 700px;
   margin           : 0 auto;
   background-color : #f5f5f5;
 
   .super-flow__node {
     .flow-node {
-      > header {
+      .header {
         font-size   : 14px;
         height      : 32px;
         line-height : 32px;
@@ -563,11 +562,11 @@ export default {
         color       : #ffffff;
       }
 
-      > section {
+      .section {
         text-align  : center;
         line-height : 20px;
         overflow    : hidden;
-        padding     : 6px 12px;
+        padding     : 0 12px;
         word-break  : break-all;
       }
 
