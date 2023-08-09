@@ -1,89 +1,30 @@
-https://fairyly.github.io/interview/
+high HTTP-cache done
+https://blog.csdn.net/leilei7407/article/details/117897295
+HTTP-cache-supplementary （public,private,启发式） done
+https://juejin.cn/post/7063861101041025031
 
-low async await ->done
-https://juejin.cn/post/7007031572238958629
-high reactive ref watch
-https://juejin.cn/post/7199833312578535480
-high nextTick&eventloop simple
-https://ustbhuangyi.github.io/vue-analysis/v2/reactive/next-tick.html#vue-%E7%9A%84%E5%AE%9E%E7%8E%B0；
-https://segmentfault.com/a/1190000012861862；
-https://www.jianshu.com/p/bf63cd4af0a6；
-[r1]https://juejin.cn/post/6885907453460873229；
-[r2]https://zhuanlan.zhihu.com/p/584436324
+high HMR
+https://github.com/careteenL/webpack-hmr
+但是这个原理太复杂了，也许背下流程能够应付面试就好。
+HMR的更新粒度是模块，webpack编译后的文件虽然只有一个，但是原来的各个文件都还是分开的模块，热更新时就是替换指定部分的代码。
 
-high typeCheck ->done
-https://www.cnblogs.com/onepixel/p/5126046.html
+# ast
+https://juejin.cn/post/6844903960650711054
+tree shake应该和AST有关吧
 
-low gc
-https://juejin.cn/post/6981588276356317214
+# ES5和es6差异
+https://www.cnblogs.com/angel648/articles/13256535.html
+大部分浏览器支持5不支持6，我们经常写6，需要借助webpack转5。
 
-high diff-trick-from-officail done
-https://cn.vuejs.org/guide/extras/rendering-mechanism.html
+# 元素事件的this指向
+无论用什么方式绑定事件，监听函数的this都指向元素本身。
+但是箭头函数存疑
+vue的话毫无疑问是组件自身，但是@xxx中把this当参数传给事件，打印出来this是null。
 
-high simple-webpack done
-https://github.com/Cosen95/blog/issues/48
+# <head>内容
+https://zhuanlan.zhihu.com/p/387226432
 
-middle cycle-depend-module done
-https://www.51cto.com/article/711910.html
+# margin:auto
+https://juejin.cn/post/6844904084114259976
+缺陷：没解释为什么在有父元素的情况下，position:static中使用margin:auto不能垂直居中。对于这个的解释是纵向不存在流体特性（https://www.jianshu.com/p/302ac93dac26），流体特性当没有指定宽度时，div的宽度会尽量宽。但是div在static的情况下，高度是尽量小的，即存在父元素的情况下，如果不指定子元素的高度，子元素高度为内容高度（如果没有内容，则直接为0）。注意，这里的宽度、高度是指box的宽度和高度，即包括了margin,border,padding,width,height，在流体特性的情况下，box的宽度占了一整行，再指定width，那么剩下的空间就会由margin瓜分，进而实现了居中，而box纵向的高度就只和height一样高，margin瓜分剩余的也是0。回到解决方案中，当指定了absolute后，进而指定top,bottom后，box的高度就是父元素高度了，此时再指定height，剩下的部分由margin瓜分，就实现了居中。当然，为什么剩下的部分总是由margin瓜分，这就是规定了吧。
 
-
-```abap
-<script>
-    // 手写 async 和 await
-    function createAsync(generationFn) {
-        return function () {
-            // 绑定参数，此时 generator 不会执行，直到第一个 next 被调用
-            const gen=generationFn.apply(this,arguments);
-            return new Promise((resolve, reject)=>{
-                // 尝试调用 next 的函数
-                function go(key, arg) { // key 在本例中只会是 'next'
-                    let res;
-                    try {
-                        res=gen[key](arg);  // 调用 gen 的 next 函数，并传入 arg
-                    } catch (error) {
-                        reject(error);   // 如果存在错误则返回
-                    }
-
-                    const {value, done} = res; // 成功调用 next，结构获取结果
-                    if(done) {
-                        resolve(value);  // 如果已经 next 到最后一步，则 resolve，调取 then
-                    }
-                    else {
-                        value.then(val=>go('next', val));    // 否则 go 下一个 next
-                    }
-                }
-                go('next'); // 开始调用 next，会自动调用 next 调用直到 done
-            });
-        }
-    }
-
-    // 使用例：fn 需要是 Promise，这和 await 是一样的
-    function fn(nums) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-            resolve(nums * 2)
-            }, 1000)
-        })
-    }
-
-    function* gen() {
-        const num1 = yield fn(1)
-        console.log(num1) // 2
-        const num2 = yield fn(num1)
-        console.log(num2) // 4
-        const num3 = yield fn(num2)
-        console.log(num3) // 8
-        return num3
-    }
-
-    const genToAsync = createAsync(gen)
-    const asyncRes = genToAsync()
-    console.log(asyncRes) // Promise
-    asyncRes.then(res => console.log(res)) // 8
-</script>
-```
-
-Dom更新在微任务队列清空之后，宏任务队列开始之前，但并不是每一个循环都会更新，它会受到刷新率的限制。
-
-compiler过程
-转换当前文件为AST->收集当前文件依赖加入全局数组1->将当前文件AST转为JS代码加入全局数组2->设置当前文件为全局数组1的下一个->回第一步；
